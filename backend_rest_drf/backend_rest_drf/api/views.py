@@ -10,9 +10,9 @@ class StoreViewSet(viewsets.ModelViewSet):
 
 class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
-    queryset = Category
+    queryset = Category.objects.all()
 
 
 class MenuViewSet(viewsets.ModelViewSet):
     serializer_class = MenuSerializer
-    queryset = Menu
+    queryset = Menu.objects.all()
