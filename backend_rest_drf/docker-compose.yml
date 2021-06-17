@@ -1,0 +1,30 @@
+version: '3.5'
+
+services:
+  backend_rest_drf-web:
+    build: ./backend_rest_drf
+    command: sh ./runserver-dev.sh
+    volumes:
+      - ./backend_rest_drf:/backend_rest_drf
+      - ./backend_rest_drf/static/:/var/www/backend_rest_drf/static/
+      - ./backend_rest_drf/media/:/var/www/backend_rest_drf/media/
+    env_file:
+      - .env
+    restart: always
+
+  backend_rest_drf-gateway:
+    container_name: backend_rest_drf-gateway
+    image: nginx:alpine
+    ports:
+      - '8989:80'
+    volumes:
+      - ./nginx-dev/:/etc/nginx/conf.d
+      - ./backend_rest_drf:/backend_rest_drf
+      - ./backend_rest_drf/static/:/var/www/backend_rest_drf/static/
+      - ./backend_rest_drf/media/:/var/www/backend_rest_drf/media/
+    restart: always
+
+networks:
+  default:
+    external:
+      name: livingmobile-networks

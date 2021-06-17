@@ -3,10 +3,14 @@
 import os
 import sys
 
+DEV_STATE = 'development'
+PRODUCTION_STATE = 'production'
 
 def main():
+    state = os.environ.get('STATE', DEV_STATE)
+
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend_rest_drf.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', f'backend_rest_drf.settings.{state}')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
