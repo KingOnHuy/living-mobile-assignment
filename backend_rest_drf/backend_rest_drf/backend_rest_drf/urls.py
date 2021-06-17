@@ -33,6 +33,8 @@ schema_view = get_schema_view(
     permission_classes=[permissions.IsAdminUser],
 )
 
+from rest_framework_simplejwt.views import TokenRefreshView
+from backend_rest_drf.custom_token import CustomTokenObtainPairView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -43,4 +45,6 @@ urlpatterns = [
                                          cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc',
                                        cache_timeout=0), name='schema-redoc'),
+    path('token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
