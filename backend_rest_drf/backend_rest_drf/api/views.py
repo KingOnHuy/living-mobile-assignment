@@ -1,6 +1,6 @@
-from store.models import Store, Category
+from store.models import Store, Category, Menu
 from rest_framework import viewsets
-from store.serializers import StoreSerializer, CategorySerializer
+from store.serializers import StoreSerializer, CategorySerializer, MenuSerializer
 
 
 class StoreViewSet(viewsets.ModelViewSet):
@@ -10,4 +10,9 @@ class StoreViewSet(viewsets.ModelViewSet):
 
 class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
-    queryset = Category
+    queryset = Category.objects.all()
+
+
+class MenuViewSet(viewsets.ModelViewSet):
+    serializer_class = MenuSerializer
+    queryset = Menu.objects.all()
