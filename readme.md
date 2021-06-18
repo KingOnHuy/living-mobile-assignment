@@ -99,3 +99,14 @@ Ponpawit Paoseng
       - API Root `http://localhost:8989/v1/`
     - DBMS (pgAdmin)
       - `http://localhost:5050/`
+
+
+## Test
+1. Exec to `backend_rest_drf`
+    ```
+    docker-compose exec backend_rest_drf-web bash
+    ```
+2. Run test command
+    ```
+    python manage.py test
+    ```
