@@ -24,7 +24,7 @@ schema_view = get_schema_view(
     openapi.Info(
         title="living-mobile-assignment",
         default_version='v1',
-        description="living-mobile-assignment",
+        description="Ponpawit Paoseng",
         # terms_of_service="https://www.google.com/policies/terms/",
         contact=openapi.Contact(email="ponpawit@livingmobile.me"),
         # license=openapi.License(name="BSD License"),
