@@ -156,6 +156,7 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.UserRateThrottle',
         'rest_framework.throttling.ScopedRateThrottle',
     ],
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
 }
 
 from datetime import timedelta
