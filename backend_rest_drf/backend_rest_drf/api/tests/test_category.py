@@ -36,6 +36,7 @@ class CategoryTestCase(APITestCase):
             name='Test set 01',
             storeId=storeInstance,
         )
+        print('')
         print('====== Run Test Category ======')
         return super().setUp()
 
@@ -71,32 +72,20 @@ class CategoryTestCase(APITestCase):
                          expected_json['storeId'])
 
     def test_category_admin_can_get(self):
-        print(f'test_category_admin_can_get {self.storeTestData["id"]}')
-        client = APIClient()
-        client.login(username='testUserAdmin', password='qwer1234')
-        expected_json = {
-            'name': 'Test Create Category',
-            'storeId': self.storeTestData['id'],
-        }
-        req = client.get(
-            self.root_path_v1 + f'category/{self.storeTestData["id"]}/',
-            expected_json,
-        )
-        self.assertEqual(req.status_code, 200)
-        reqContent = json.loads(req.content)
-        self.assertEqual(reqContent, self.storeTestData)
-
-    def test_category_admin_can_get(self):
         print(f'test_category_admin_can_get {self.categoryTestData["id"]}')
         client = APIClient()
         client.login(username='testUserAdmin', password='qwer1234')
-
+        expected_json = {
+            'id': self.categoryTestData['id'],
+            'name': self.categoryTestData['name'],
+            'storeId': self.storeTestData['id'],
+        }
         req = client.get(
             self.root_path_v1 + f'category/{self.categoryTestData["id"]}/',
         )
         self.assertEqual(req.status_code, 200)
         reqContent = json.loads(req.content)
-        self.assertEqual(reqContent, self.categoryTestData)
+        self.assertEqual(reqContent, expected_json)
 
     def test_category_admin_can_update_all_PUT(self):
         print(

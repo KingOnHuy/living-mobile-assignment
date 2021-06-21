@@ -94,29 +94,17 @@ class MenuTestCase(APITestCase):
         client = APIClient()
         client.login(username='testUserAdmin', password='qwer1234')
         expected_json = {
-            'name': 'Test Create Category',
+            'id': self.menuTestData['id'],
+            'name': self.menuTestData['name'],
             'categoryId': self.categoryTestData['id'],
-            'price': 9393,
+            'price': self.menuTestData['price'],
         }
         req = client.get(
             self.root_path_v1 + f'menu/{self.menuTestData["id"]}/',
-            expected_json,
         )
         self.assertEqual(req.status_code, 200)
         reqContent = json.loads(req.content)
-        self.assertEqual(reqContent, self.menuTestData)
-
-    def test_menu_admin_can_get(self):
-        print(f'test_menu_admin_can_get {self.menuTestData["id"]}')
-        client = APIClient()
-        client.login(username='testUserAdmin', password='qwer1234')
-
-        req=client.get(
-            self.root_path_v1 + f'menu/{self.menuTestData["id"]}/',
-        )
-        self.assertEqual(req.status_code, 200)
-        reqContent = json.loads(req.content)
-        self.assertEqual(reqContent, self.menuTestData)
+        self.assertEqual(reqContent, expected_json)
 
     def test_menu_admin_can_update_all_PUT(self):
         print(
