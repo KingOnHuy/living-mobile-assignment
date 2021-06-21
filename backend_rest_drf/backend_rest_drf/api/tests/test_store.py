@@ -10,20 +10,16 @@ import json
 class StoreTestCase(APITestCase):
     def setUp(self) -> None:
         self.root_path_v1 = '/v1/'
-        print('====== Setup Test ======')
-        print('Create testUser')
         User.objects.create_user(
             username='testUser',
             password='qwer1234',
         )
-        print('Create testUserAdmin')
         User.objects.create_user(
             username='testUserAdmin',
             password='qwer1234',
             is_superuser=True,
         )
 
-        print('Create Store set')
         self.storeTestData = StoreSerializer(Store.objects.create(
             name='Test set 00',
             description='test set',
@@ -34,7 +30,7 @@ class StoreTestCase(APITestCase):
             description='test set',
             rating=5678,
         )
-        print('====== Run Test ======')
+        print('====== Run Test Store ======')
         return super().setUp()
 
     def test_store_admin_can_list(self):
