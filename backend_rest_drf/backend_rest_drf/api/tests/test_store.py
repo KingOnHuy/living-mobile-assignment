@@ -30,6 +30,7 @@ class StoreTestCase(APITestCase):
             description='test set',
             rating=5678,
         )
+        print('')
         print('====== Run Test Store ======')
         return super().setUp()
 
