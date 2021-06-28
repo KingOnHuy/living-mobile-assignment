@@ -15,15 +15,25 @@ const routes = [
     component: Home,
   },
   {
-    path: "/about",
-    name: "About",
-    component: () =>
-      loadView('About'),
+    path: "/store",
+    name: "Store",
+    component: () => loadView("Store"),
+  },
+  {
+    path: "/category",
+    name: "Category",
+    component: () => loadView("Category"),
+  },
+  {
+    path: "/menu",
+    name: "Menu",
+    component: () => loadView("Menu"),
   },
 ];
 
 const router = new VueRouter({
   routes,
+  mode: "history",
 });
 
 export default router;
