@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import store from "../store"
 
 Vue.use(VueRouter);
 
@@ -39,6 +40,17 @@ const routes = [
 const router = new VueRouter({
   routes,
   mode: "history",
+});
+// eslint-disable-next-line no-unused-vars
+router.beforeEach((to, from, next) => {
+  if (to.name !== "Login" && store.getters["auth/isLogin"]) {
+    next();
+  } else if (to.name === "Login") {
+    next();
+  }
+  if (to.name !== "Login") {
+    next({ name: "Login" });
+  }
 });
 
 export default router;
