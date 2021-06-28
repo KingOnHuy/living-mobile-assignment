@@ -1,0 +1,8 @@
+:root {
+  --primary: #28b7ff;
+}
+
+
+.el-menu {
+  background-color: var(--primary);
+}
