@@ -6,7 +6,7 @@
       mode="horizontal"
       @select="handleSelect"
     >
-      <el-menu-item class="d-flex justify-center align-center" index="">
+      <el-menu-item class="d-flex justify-center align-center" index="/">
         <el-image
           class="d-flex"
           :src="require('@/assets/FoodStory_Logo.png')"
