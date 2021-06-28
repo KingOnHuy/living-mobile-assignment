@@ -2,7 +2,6 @@ version: '3.5'
 
 services:
   postgres_database:
-    container_name: postgres_database
     image: postgres:11.1-alpine
     volumes:
     - ./data/postgresql:/var/lib/postgresql/data
