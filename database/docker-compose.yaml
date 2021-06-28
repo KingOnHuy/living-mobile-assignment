@@ -1,7 +1,7 @@
 version: '3.5'
 
 services:
-  postgres:
+  postgres_database:
     container_name: postgres_database
     image: postgres:11.1-alpine
     volumes:
@@ -11,7 +11,7 @@ services:
     - .env
     networks:
       - postgres
-    restart: unless-stopped
+    restart: always
 
   pgadmin:
     container_name: pgadmin_container
@@ -26,7 +26,7 @@ services:
       - postgres
     depends_on:
       - postgres_database
-    restart: unless-stopped
+    restart: always
 
 networks:
   postgres:
