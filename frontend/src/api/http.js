@@ -14,23 +14,24 @@ async function postWithToken(url, payload = {}) {
 }
 
 async function putWithToken(url, payload = {}) {
-  return axios.put(url, payload, await TokenStorage.getAuthenticationHeaders());
+  return axios.put(url, {
+    payload,
+    ...(await TokenStorage.getAuthenticationHeaders()),
+  });
 }
 
 async function patchWithToken(url, payload = {}) {
-  return axios.patch(
-    url,
+  return axios.patch(url, {
     payload,
-    await TokenStorage.getAuthenticationHeaders()
-  );
+    ...(await TokenStorage.getAuthenticationHeaders()),
+  });
 }
 
 async function deleteWithToken(url, payload = {}) {
-  return axios.delete(
-    url,
+  return axios.delete(url, {
     payload,
-    await TokenStorage.getAuthenticationHeaders()
-  );
+    ...(await TokenStorage.getAuthenticationHeaders()),
+  });
 }
 
 export {
