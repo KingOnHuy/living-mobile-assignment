@@ -1,11 +1,15 @@
 # Group Name : Sinopharm
-Backoffice Assignment
-- Store: Arm
+## Members
+1. Ponpawit Paoseng (King)
+2. Chukeit Panpiboon (Arm)
+
+## Backoffice Assignment
+- Store: Arm (UI,Vuex)
 - Category: Arm(UI), King(Vuex)
-- Menu: King
+- Menu: King (UI,Vuex)
 # เกณท์ในการแบ่งงาน
 1. Arm เรื่มทำจากหน้า Store ไล่ไปเรื่อยๆ
-2. King เริ่มทำ Authentication และจึงเริ่มทำจากหน้าสุดท้าย
+2. King เริ่มทำ Authentication และจึงเริ่มทำจากหน้าสุดท้ายย้อนหลังมาเรื่อยๆ
 3. King ทำ Vuex `category` module ที่จำเป็นต้องใช้สำหรับหน้า Store
 # Getting Started
 This project uses the Django Rest framework (DRF) as a backend.
