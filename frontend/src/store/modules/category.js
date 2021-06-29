@@ -1,7 +1,6 @@
-import { getWithToken, deleteWithToken } from "../../api/http";
+import { getWithToken, deleteWithToken, postWithToken, putWithToken } from "../../api/http";
 import UrlService from "../../api/urls.service";
 import { Message } from 'element-ui';
-
 const category = {
   namespaced: true,
   state: {
@@ -43,6 +42,35 @@ const category = {
           return response.data.results;
         }
       );
+    },
+    async save({ dispatch }, payload) {
+      await postWithToken(
+        "http://localhost:8989/v1/category/",
+        {
+          name: payload.name,
+          storeId: payload.storeId,
+        }
+      ).then(async() => {
+        await dispatch('getCategoryData')
+      });
+    },
+    async deleteCategory({ dispatch }, id){
+      await deleteWithToken(
+        "http://localhost:8989/v1/category/"+id
+      ).then(async() => {
+        await dispatch('getCategoryData')
+      });
+    },
+    async editSave({ dispatch }, payload){
+      await putWithToken(
+        "http://localhost:8989/v1/category/"+payload.id+"/",
+        {
+          name: payload.name,
+          storeId: payload.storeId,
+        }
+      ).then(async() => {
+        await dispatch('getCategoryData')
+      });
     },
     // eslint-disable-next-line no-unused-vars
     async deleteCategoryData({ dispatch }, payload) {

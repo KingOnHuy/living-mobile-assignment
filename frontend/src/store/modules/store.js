@@ -9,6 +9,14 @@ const store = {
     getStore(state) {
       return state.dataStore;
     },
+    idKeyWithNameValue(state) {
+      return state.dataStore.reduce(
+        (a, e) => ({
+          [e.id]: e.name,
+        }),
+        {}
+      );
+    },
   },
   mutations: {
     STORE(state, data) {

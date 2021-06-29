@@ -1,58 +1,71 @@
 <template lang="">
   <div>
     <el-row>
-      <el-col :span="10" :offset="6"> <h2>Store</h2></el-col>
+      <el-col :span="10" :offset="6"> <h2>Cateogry</h2></el-col>
       <el-col :span="8">
-        <el-button type="primary" round @click="createStore">+ Add New Store</el-button>
+        <el-button type="primary" round @click="createCateogry">+ Add New Category</el-button>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="15" :offset="5">
-        <el-table :data="tableData" style="width: 100%">
-          <el-table-column prop="id" label="ID" width="180"> </el-table-column>
-          <el-table-column prop="name" label="Name" width="180">
-          </el-table-column>
-          <el-table-column prop="description" label="Description">
-          </el-table-column>
-          <el-table-column prop="rating" label="Rating"> </el-table-column>
-          <el-table-column>
-            <template slot-scope="scope">
-              <el-button
+        <el-table
+          :data="tableData"
+          style="width: 100%"
+          empty-text="ไม่มีข้อมูล">
+          
+            <el-table-column prop="name" label="Name" width="180">
+            </el-table-column>
+          
+            <el-table-column prop="storeId" label="StoreId" width="180">
+              <template slot-scope="scope">
+                {{ idKeyWithNameValueStore[scope.row.storeId] }}
+              </template> 
+            </el-table-column>
+            <el-table-column>
+              <template slot-scope="scope">
+                <el-button
                 icon="el-icon-edit"
-                @click="editStore(scope.row)"
+                @click="editCategory(scope.row)"
                 circle></el-button>
                 <el-button
                 type="primary"
                 icon="el-icon-document-copy"
-                @click="copyStore(scope.row)"
+                @click="copyCategory(scope.row)"
                 circle
                 style="margin-left: 0"
                 slot="reference"></el-button>
                 <el-button
                 type="danger"
                 icon="el-icon-delete-solid"
-                @click="deleteStore(scope.row.id)"
+                @click="deleteCategory(scope.row.id)"
                 circle
                 slot="reference"></el-button>
-            </template>
+
+              </template>  
           </el-table-column>
+          
         </el-table>
       </el-col>
     </el-row>
-    <el-dialog title="Create Store" :visible.sync="dialogFormVisible">
+    <el-dialog title="Create Category" :visible.sync="dialogFormVisible">
       <el-form :model="form">
-        <el-form-item label="Store Name">
+        <el-form-item label="Category Name">
           <el-input v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="Description">
-          <el-input v-model="form.description" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="Rating">
-          <el-input-number
-            v-model="form.rating"
-            :min="1"
-            :max="10"
-          ></el-input-number>
+        <el-form-item label="Store">
+          <el-select
+            filterable
+            v-model="form.storeId"
+            value-key="name"
+          >
+          <el-option
+              v-for="item in storeData"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            >
+            </el-option
+          ></el-select>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -81,8 +94,7 @@ export default {
       deleteIcon: deleteIcon,
       form: {
         name: "",
-        description: "",
-        rating: "",
+        storeId: "",
         id: ""
       },
       dialogFormVisible: false,
@@ -92,27 +104,27 @@ export default {
   },
   methods: {
     ...mapActions({
+      getCategory: "category/getCategoryData",
       getStore: "store/fetchStore",
-      saveStore: "store/save",
-      saveEditStore: "store/editSave",
-      saveDeleteStore: "store/deleteStore",
+      saveCategory: "category/save",
+      saveEditCategory: "category/editSave",
+      saveDeleteCategory: "category/deleteCategory",
     }),
     async save() {
       this.loading = true;
       if(this.typeAction === 'create')
-        await this.saveStore(this.form)
+        await this.saveCategory(this.form)
       else if(this.typeAction === 'edit')
-        await this.saveEditStore(this.form)
+        await this.saveEditCategory(this.form)
       this.loading = false;
       this.dialogFormVisible = false
     },
-    async copyStore(dataStore){
-      this.form.name = dataStore.name
-      this.form.description = dataStore.description
-      this.form.rating = dataStore.rating
+    async copyCategory(dataCategory){
+      this.form.name = dataCategory.name
+      this.form.storeId = dataCategory.storeId
       this.typeAction = 'create'
       
-      this.$confirm('This will copy the store. Continue?', 'Warning', {
+      this.$confirm('This will copy the category. Continue?', 'Warning', {
           confirmButtonText: 'OK',
           cancelButtonText: 'Cancel',
           type: 'warning'
@@ -127,27 +139,26 @@ export default {
           })
         })
     },
-    async editStore(dataStore){
+    async editCategory(dataCategory){
       this.dialogFormVisible = true
-      this.form.name = dataStore.name
-      this.form.description = dataStore.description
-      this.form.rating = dataStore.rating
+      this.form.name = dataCategory.name
+      this.form.storeId = dataCategory.storeId
       this.typeAction = 'edit'
-      this.form.id = dataStore.id
+      this.form.id = dataCategory.id
     },
-    async createStore(){
+    async createCateogry(){
       this.dialogFormVisible = true
       this.typeAction = 'create'
     },
-    async deleteStore(id){
-      this.$confirm('This will permanently delete the store. Continue?', 'Warning', {
+    async deleteCategory(id){
+      this.$confirm('This will permanently delete the category. Continue?', 'Warning', {
           confirmButtonText: 'OK',
           cancelButtonText: 'Cancel',
           type: 'warning'
         }).then(async() => {
           
           this.loading = true
-          await this.saveDeleteStore(id)
+          await this.saveDeleteCategory(id)
           this.loading = false
           this.$message({
             type: 'success',
@@ -158,13 +169,15 @@ export default {
   },
   async mounted() {
     this.loading = true
-    await this.getStore()
+    await this.getCategory()
     this.loading = false
-    
+    await this.getStore();
   },
   computed: {
     ...mapGetters({
-      tableData: "store/getStore",
+      tableData: "category/tableData",
+      storeData: "store/getStore",
+      idKeyWithNameValueStore: "store/idKeyWithNameValue",
     }),
   },
 };
