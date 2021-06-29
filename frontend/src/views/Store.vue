@@ -3,14 +3,16 @@
     <el-row>
       <el-col :span="10" :offset="6"> <h2>Store</h2></el-col>
       <el-col :span="8">
-        <el-button type="primary" round @click="dialogFormVisible = true"
-          >+ Add New Store</el-button
-        >
+        <el-button type="primary" round @click="createStore">+ Add New Store</el-button>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="15" :offset="5">
-        <el-table :data="tableData" style="width: 100%" empty-text='ไม่มีข้อมูล'>
+        <el-table
+          :data="tableData"
+          style="width: 100%"
+          empty-text="ไม่มีข้อมูล"
+        >
           <el-table-column prop="id" label="ID" width="180"> </el-table-column>
           <el-table-column prop="name" label="Name" width="180">
           </el-table-column>
@@ -18,18 +20,11 @@
           </el-table-column>
           <el-table-column prop="rating" label="Rating"> </el-table-column>
           <el-table-column>
-            <el-image
-              style="width: 30px; height: 30px; margin-right: 10px"
-              :src="editIcon"
-            ></el-image>
-            <el-image
-              style="width: 20px; height: 20px; margin-right: 10px"
-              :src="copyIcon"
-            ></el-image>
-            <el-image
-              style="width: 20px; height: 20px"
-              :src="deleteIcon"
-            ></el-image>
+            <template slot-scope="scope">
+              <el-button type="primary" @click="editStore(scope.row)" round>e</el-button>
+              <el-button type="primary" round>c</el-button>
+              <el-button type="primary" @click="deleteStore(scope.row.id)" round>d</el-button>
+            </template>
           </el-table-column>
         </el-table>
       </el-col>
@@ -66,7 +61,7 @@
 import editIcon from "../assets/edit.png";
 import copyIcon from "../assets/copy.png";
 import deleteIcon from "../assets/delete.png";
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   data() {
@@ -81,27 +76,70 @@ export default {
       },
       dialogFormVisible: false,
       loading: false,
+      typeAction: 'create',
+      hiddenId: ''
     };
   },
   methods: {
     ...mapActions({
       getStore: "store/fetchStore",
-      saveStore: "store/save"
+      saveStore: "store/save",
+      saveEditStore: "store/editSave",
+      saveDeleteStore: "store/deleteStore",
     }),
     async save() {
-      await this.saveStore(this.form)
+      console.log(this.typeAction)
+      this.loading = true;
+      if(this.typeAction === 'create')
+        await this.saveStore(this.form)
+      else if(this.typeAction === 'edit')
+        await this.saveEditStore(this.hiddenId,this.form)
+      this.loading = false;
+      this.dialogFormVisible = false
+    },
+    async editStore(dataStore){
+      this.dialogFormVisible = true
+      this.form.name = dataStore.name
+      this.form.description = dataStore.description
+      this.form.rating = dataStore.rating
+      console.log(dataStore)
+      this.typeAction = 'edit'
+      this.hiddenId = dataStore.id
+    },
+    async createStore(){
+      this.dialogFormVisible = true
+      this.typeAction = 'create'
+    },
+    async deleteStore(id){
+      this.$confirm('This will permanently delete the store. Continue?', 'Warning', {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          type: 'warning'
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: 'Delete completed'
+          })
+          this.saveDeleteStore(id)
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: 'Delete canceled'
+          })        
+        })
     }
   },
   async mounted() {
     this.loading = true
     await this.getStore()
     this.loading = false
+    
   },
   computed: {
     ...mapGetters({
-      tableData: "store/getStore"
+      tableData: "store/getStore",
     }),
-  }
+  },
 };
 </script>
 <style lang=""></style>

@@ -29,20 +29,21 @@ const store = {
         });
     },
     async save({ commit, state }, payload) {
-      this.loading = true;
       await postWithToken(
         "http://localhost:8989/v1/store/",
         payload
       ).then((response) => {
         if (response.status === 200) 
           commit("STORE", state.dataStore.push(response.data));
-
-        console.log(state.dataStore.push(response.data));
         return response.data;
       });
-      this.loading = false;
-      this.dialogFormVisible = false;
     },
+    async editSave(){
+      // putWithToken
+    },
+    async deleteStore(id){
+      console.log(id)
+    }
   },
 };
 
