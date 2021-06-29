@@ -38,6 +38,10 @@ h2 {
   justify-content: center;
 }
 
+.justify-end {
+  justify-content: end;
+}
+
 .align-center {
   align-items: center;
 }
@@ -89,4 +93,8 @@ h2 {
 }
 .mt-4 {
   margin-top: 16px;
+}
+
+.my {
+  margin-block: auto;
 }
