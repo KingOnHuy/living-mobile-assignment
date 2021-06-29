@@ -6,7 +6,7 @@ async function getWithToken(url) {
 }
 
 async function postWithToken(url, payload = {}) {
-  return axios.post(
+  return await axios.post(
     url,
     payload,
     await TokenStorage.getAuthenticationHeaders()

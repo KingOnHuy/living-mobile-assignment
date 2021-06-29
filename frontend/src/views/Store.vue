@@ -10,7 +10,7 @@
     </el-row>
     <el-row>
       <el-col :span="15" :offset="5">
-        <el-table :data="tableData" style="width: 100%">
+        <el-table :data="tableData" style="width: 100%" empty-text='ไม่มีข้อมูล'>
           <el-table-column prop="id" label="ID" width="180"> </el-table-column>
           <el-table-column prop="name" label="Name" width="180">
           </el-table-column>
@@ -19,7 +19,7 @@
           <el-table-column prop="rating" label="Rating"> </el-table-column>
           <el-table-column>
             <el-image
-              style="width: 20px; height: 20px; margin-right: 10px"
+              style="width: 30px; height: 30px; margin-right: 10px"
               :src="editIcon"
             ></el-image>
             <el-image
@@ -66,11 +66,11 @@
 import editIcon from "../assets/edit.png";
 import copyIcon from "../assets/copy.png";
 import deleteIcon from "../assets/delete.png";
-import axios from "axios";
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
   data() {
     return {
-      tableData: [],
       editIcon: editIcon,
       copyIcon: copyIcon,
       deleteIcon: deleteIcon,
@@ -84,20 +84,24 @@ export default {
     };
   },
   methods: {
+    ...mapActions({
+      getStore: "store/fetchStore",
+      saveStore: "store/save"
+    }),
     async save() {
-      this.loading = true;
-      await axios.post("http://localhost:8989/v1/store/",this.form).then((response) => {
-        if (response.status === 200) this.tableData = response.data.results;
-      });
-      this.loading = false;
-      this.dialogFormVisible = false;
-    },
+      await this.saveStore(this.form)
+    }
   },
-  mounted() {
-    axios.get("http://localhost:8989/v1/store/").then((response) => {
-      if (response.status === 200) this.tableData = response.data.results;
-    });
+  async mounted() {
+    this.loading = true
+    await this.getStore()
+    this.loading = false
   },
+  computed: {
+    ...mapGetters({
+      tableData: "store/getStore"
+    }),
+  }
 };
 </script>
 <style lang=""></style>
