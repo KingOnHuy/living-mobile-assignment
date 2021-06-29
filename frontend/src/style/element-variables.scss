@@ -1,0 +1,12 @@
+
+/* icon font path, required */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap');
+
+:root {
+  --primary: #28b7ff;
+}
+/* theme color */
+$--color-primary: #28b7ff;
+
+@import "~element-ui/packages/theme-chalk/src/index";
