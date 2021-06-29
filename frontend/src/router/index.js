@@ -41,11 +41,13 @@ const router = new VueRouter({
   routes,
   mode: "history",
 });
+
+const canGoWhenNotLogin = ["Login", "Home"];
 // eslint-disable-next-line no-unused-vars
 router.beforeEach((to, from, next) => {
   if (to.name !== "Login" && store.getters["auth/isLogin"]) {
     next();
-  } else if (to.name === "Login") {
+  } else if (canGoWhenNotLogin.includes(to.name)) {
     next();
   } else if (to.name !== "Login") {
     next({ name: "Login" });
