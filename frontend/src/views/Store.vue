@@ -115,12 +115,15 @@ export default {
           confirmButtonText: 'OK',
           cancelButtonText: 'Cancel',
           type: 'warning'
-        }).then(() => {
+        }).then(async() => {
+          
+          this.loading = true
+          await this.saveDeleteStore(id)
+          this.loading = false
           this.$message({
             type: 'success',
             message: 'Delete completed'
           })
-          this.saveDeleteStore(id)
         }).catch(() => {
           this.$message({
             type: 'info',

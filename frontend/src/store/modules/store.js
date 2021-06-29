@@ -1,5 +1,5 @@
 import axios from "axios";
-import { postWithToken } from "@/api/http";
+import { postWithToken, deleteWithToken, putWithToken } from "@/api/http";
 const store = {
   namespaced: true,
   state: {
@@ -38,11 +38,20 @@ const store = {
         return response.data;
       });
     },
-    async editSave(){
-      // putWithToken
+    async editSave({ dispatch }, id, payload){
+      await putWithToken(
+        "http://localhost:8989/v1/store/"+id,
+        payload
+      ).then(() => {
+        dispatch('fetchStore')
+      });
     },
-    async deleteStore(id){
-      console.log(id)
+    async deleteStore({ dispatch }, id){
+      await deleteWithToken(
+        "http://localhost:8989/v1/store/"+id
+      ).then(() => {
+        dispatch('fetchStore')
+      });
     }
   },
 };
