@@ -15,6 +15,14 @@ const category = {
     dialogVisible(state) {
       return state.dialogVisible;
     },
+    idKeyWithNameValue(state) {
+      return state.tableData.reduce(
+        (a, e) => ({
+          [e.id]: e.name,
+        }),
+        {}
+      );
+    },
   },
   mutations: {
     TABLE_DATA(state, data) {
