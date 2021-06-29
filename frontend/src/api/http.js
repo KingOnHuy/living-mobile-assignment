@@ -14,10 +14,7 @@ async function postWithToken(url, payload = {}) {
 }
 
 async function putWithToken(url, payload = {}) {
-  return axios.put(url, {
-    payload,
-    ...(await TokenStorage.getAuthenticationHeaders()),
-  });
+  return axios.put(url, payload, await TokenStorage.getAuthenticationHeaders());
 }
 
 async function patchWithToken(url, payload = {}) {
