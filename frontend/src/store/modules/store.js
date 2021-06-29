@@ -28,29 +28,38 @@ const store = {
           commit("STORE", []);
         });
     },
-    async save({ commit, state }, payload) {
+    async save({ dispatch }, payload) {
       await postWithToken(
         "http://localhost:8989/v1/store/",
-        payload
-      ).then((response) => {
-        if (response.status === 200) 
-          commit("STORE", state.dataStore.push(response.data));
-        return response.data;
+        {
+          name: payload.name,
+          description: payload.description,
+          rating: payload.rating
+        }
+      ).then(async() => {
+        // if (response.status === 200) 
+        //   commit("STORE", state.dataStore.push(response.data));
+        // return response.data;
+        await dispatch('fetchStore')
       });
     },
-    async editSave({ dispatch }, id, payload){
+    async editSave({ dispatch }, payload){
       await putWithToken(
-        "http://localhost:8989/v1/store/"+id,
-        payload
-      ).then(() => {
-        dispatch('fetchStore')
+        "http://localhost:8989/v1/store/"+payload.id+"/",
+        {
+          name: payload.name,
+          description: payload.description,
+          rating: payload.rating
+        }
+      ).then(async() => {
+        await dispatch('fetchStore')
       });
     },
     async deleteStore({ dispatch }, id){
       await deleteWithToken(
         "http://localhost:8989/v1/store/"+id
-      ).then(() => {
-        dispatch('fetchStore')
+      ).then(async() => {
+        await dispatch('fetchStore')
       });
     }
   },

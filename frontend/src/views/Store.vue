@@ -22,7 +22,7 @@
           <el-table-column>
             <template slot-scope="scope">
               <el-button type="primary" @click="editStore(scope.row)" round>e</el-button>
-              <el-button type="primary" round>c</el-button>
+              <el-button type="primary" @click="copyStore(scope.row)" round>c</el-button>
               <el-button type="primary" @click="deleteStore(scope.row.id)" round>d</el-button>
             </template>
           </el-table-column>
@@ -73,11 +73,11 @@ export default {
         name: "",
         description: "",
         rating: "",
+        id: ""
       },
       dialogFormVisible: false,
       loading: false,
       typeAction: 'create',
-      hiddenId: ''
     };
   },
   methods: {
@@ -88,23 +88,42 @@ export default {
       saveDeleteStore: "store/deleteStore",
     }),
     async save() {
-      console.log(this.typeAction)
       this.loading = true;
       if(this.typeAction === 'create')
         await this.saveStore(this.form)
       else if(this.typeAction === 'edit')
-        await this.saveEditStore(this.hiddenId,this.form)
+        await this.saveEditStore(this.form)
       this.loading = false;
       this.dialogFormVisible = false
+    },
+    async copyStore(dataStore){
+      this.form.name = dataStore.name
+      this.form.description = dataStore.description
+      this.form.rating = dataStore.rating
+      this.typeAction = 'create'
+      
+      this.$confirm('This will copy the store. Continue?', 'Warning', {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          type: 'warning'
+        }).then(async() => {
+          
+          this.loading = true
+          this.save()
+          this.loading = false
+          this.$message({
+            type: 'success',
+            message: 'copy completed'
+          })
+        })
     },
     async editStore(dataStore){
       this.dialogFormVisible = true
       this.form.name = dataStore.name
       this.form.description = dataStore.description
       this.form.rating = dataStore.rating
-      console.log(dataStore)
       this.typeAction = 'edit'
-      this.hiddenId = dataStore.id
+      this.form.id = dataStore.id
     },
     async createStore(){
       this.dialogFormVisible = true
@@ -124,11 +143,6 @@ export default {
             type: 'success',
             message: 'Delete completed'
           })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: 'Delete canceled'
-          })        
         })
     }
   },
