@@ -33,7 +33,7 @@ async function deleteWithToken(url, payload = {}) {
   );
 }
 
-export default {
+export {
   getWithToken,
   postWithToken,
   putWithToken,
