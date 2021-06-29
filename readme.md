@@ -1,3 +1,12 @@
+# Group Name : Sinopharm
+Backoffice Assignment
+- Store: Arm
+- Category: Arm(UI), King(Vuex)
+- Menu: King
+# เกณท์ในการแบ่งงาน
+1. Arm เรื่มทำจากหน้า Store ไล่ไปเรื่อยๆ
+2. King เริ่มทำ Authentication และจึงเริ่มทำจากหน้าสุดท้าย
+3. King ทำ Vuex `category` module ที่จำเป็นต้องใช้สำหรับหน้า Store
 # Getting Started
 This project uses the Django Rest framework (DRF) as a backend.
 
@@ -40,7 +49,7 @@ Ponpawit Paoseng
         sudo chmod +x /usr/local/bin/docker-compose
         ```
 
-## Installation
+## Installation Backend
 1. Create docker network `livingmobile-networks`
     ```
     docker network create livingmobile-networks
@@ -100,7 +109,15 @@ Ponpawit Paoseng
     - DBMS (pgAdmin)
       - `http://localhost:5050/`
 
-
+## Installation Frontend
+1. Install packages
+    ```
+    yarn
+    ```
+2. Run
+   ```
+   yarn serve
+   ```
 ## Test
 1. Exec to `backend_rest_drf`
     ```
