@@ -99,7 +99,7 @@ Ponpawit Paoseng
     cd backend_rest_drf
     docker-compose up -d
     ```
-    - Create Super user
+    #### Create Super user
         ```
         docker-compose exec backend_rest_drf-web bash
         python manage.py createsuperuser
@@ -122,6 +122,7 @@ Ponpawit Paoseng
    ```
    yarn serve
    ```
+> Note. You must be `Create Super user` for login [(here)](#create-super-user)
 ## Test
 1. Exec to `backend_rest_drf`
     ```
