@@ -43,7 +43,6 @@ const menu = {
       state.isLoading = data;
     },
     UPDATE_DATA(state, data) {
-      console.log(data);
       state.updateData = data;
     },
   },
@@ -78,7 +77,7 @@ const menu = {
         })
         .catch((error) => {
           Message.error({
-            message: "Can't delete menu.",
+            message: "Can't create menu.",
             offset: 100,
           });
           return error;
@@ -86,7 +85,6 @@ const menu = {
     },
     // eslint-disable-next-line no-unused-vars
     async updateMenuData({ commit, dispatch }, payload) {
-      console.log(payload);
       commit("IS_LOADING", true);
       return await putWithToken(
         `${UrlService.API_URL}menu/${payload.id}/`,

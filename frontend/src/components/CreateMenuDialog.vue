@@ -60,7 +60,6 @@ export default {
   },
   async created() {
     await this.getCategoryDataAPI();
-    console.log(this.updateData);
     if (this.updateData) {
       this.formData = this.updateData;
     }
@@ -100,7 +99,6 @@ export default {
         .catch(() => {});
     },
     createItem() {
-      console.log("Create", this.formData);
       this.createMenuData(this.formData).then(() => {
         this.closeDialog();
       });

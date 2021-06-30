@@ -117,7 +117,6 @@ export default {
       this.createMenuData(item);
     },
     async deleteItem(id) {
-      console.log(id);
       switch (this.name) {
         case "Menu":
           await this.deleteMenuData(id);
