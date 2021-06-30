@@ -11,7 +11,7 @@
             class="ml"
             type="primary"
             icon="el-icon-plus"
-            @click="createItem({})"
+            @click="createItem()"
             :loading="dialogVisible"
           >
             Add New {{ name }}
@@ -131,6 +131,8 @@ export default {
         case "Menu":
           if (item) {
             this.updateDialogData(item);
+          } else {
+            this.updateDialogData(null);
           }
           this.openDialogVisibleMenu();
           break;

@@ -6,7 +6,7 @@
     width="70%"
   >
     <el-form label-position="top" label-width="100px" :model="formData">
-      <div v-if="updateData.id">ID: {{ updateData.id }}</div>
+      <div v-if="updateData">ID: {{ updateData.id }}</div>
       <el-form-item label="Category">
         <el-select
           filterable
